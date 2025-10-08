@@ -9,5 +9,6 @@ router.post("/", validate(userSchema), userController.createUser);
 router.patch("/:id", validate(userSchema), userController.updateUser);
 router.delete("/:id", userController.deleteUser);
 router.get("/", userController.getUsers);
+router.get("/:id", userController.getUserById);
 
 export default router;
