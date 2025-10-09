@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import softDeletePlugin from "./plugins/softDeletePlugin.js";
 const productSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -42,25 +42,7 @@ const productSchema = new mongoose.Schema({
 
 });
 
-// INSTANCE METHODS
-productSchema.methods.softDelete = function () {
-  this.deletedAt = new Date();
-  return this.save();
-};
-
-productSchema.methods.restore = function () {
-  this.deletedAt = null;
-  return this.save();
-};
-
-// QUERY HELPER
-productSchema.query.notDeleted = function () {
-  return this.where({ deletedAt: null });
-};
-
-productSchema.query.deleted = function () {
-  return this.where({ deletedAt: { $ne: null } });
-};
+productSchema.plugin(softDeletePlugin);
 
 const Product = mongoose.model("Product", productSchema);
 
