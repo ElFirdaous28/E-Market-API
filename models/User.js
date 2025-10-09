@@ -48,6 +48,10 @@ userSchema.query.notDeleted = function () {
   return this.where({ deletedAt: null });
 };
 
+userSchema.query.deleted = function () {
+  return this.where({ deletedAt: { $ne: null } });
+};
+
 const User = mongoose.model("User", userSchema);
 
 export default User;
