@@ -35,7 +35,28 @@ const productSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  deletedAt: {
+    type: Date,
+    default: null
+  },
+
 });
+
+// INSTANCE METHODS
+productSchema.methods.softDelete = function () {
+  this.deletedAt = new Date();
+  return this.save();
+};
+
+productSchema.methods.restore = function () {
+  this.deletedAt = null;
+  return this.save();
+};
+
+// QUERY HELPER
+productSchema.query.notDeleted = function () {
+  return this.where({ deletedAt: null });
+};
 
 const Product = mongoose.model("Product", productSchema);
 
