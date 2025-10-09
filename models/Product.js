@@ -13,20 +13,24 @@ const productSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: [true, "Product price is required"],
+    min: [0, "Price cannot be negative"],
   },
   stock: {
     type: Number,
     required: [true, "Product stock is required"],
+    min: [0, "Stock cannot be negative"],
   },
   categories: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
-    }
+    },
   ],
-  imageUrl: {
-    type: String,
-  },
+  images: [
+    {
+      type: String,
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
