@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import softDeletePlugin from "./plugins/softDeletePlugin.js";
 
 const categorySchema = new mongoose.Schema({
     name: {
@@ -17,26 +18,7 @@ const categorySchema = new mongoose.Schema({
     },
 });
 
-// Helper: soft delete
-categorySchema.methods.softDelete = function () {
-    this.deletedAt = new Date();
-    return this.save();
-};
-
-// Helper: restore
-categorySchema.methods.restore = function () {
-    this.deletedAt = null;
-    return this.save();
-};
-
-// Query helper: only get non-deleted categories
-categorySchema.query.notDeleted = function () {
-    return this.where({ deletedAt: null });
-};
-
-categorySchema.query.deleted = function () {
-    return this.where({ deletedAt: { $ne: null } });
-};
+categorySchema.plugin(softDeletePlugin);
 
 const Category = mongoose.model("Category", categorySchema);
 

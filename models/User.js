@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import softDeletePlugin from "./plugins/softDeletePlugin.js"
 
 const userSchema = new mongoose.Schema({
   fullname: {
@@ -31,26 +32,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// Helper: soft delete
-userSchema.methods.softDelete = function () {
-  this.deletedAt = new Date();
-  return this.save();
-};
-
-// Helper: restore
-userSchema.methods.restore = function () {
-  this.deletedAt = null;
-  return this.save();
-};
-
-// Query helper: only get non-deleted users
-userSchema.query.notDeleted = function () {
-  return this.where({ deletedAt: null });
-};
-
-userSchema.query.deleted = function () {
-  return this.where({ deletedAt: { $ne: null } });
-};
+userSchema.plugin(softDeletePlugin);
 
 const User = mongoose.model("User", userSchema);
 
