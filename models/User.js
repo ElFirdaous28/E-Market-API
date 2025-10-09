@@ -25,7 +25,28 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  deletedAt: {
+    type: Date,
+    default: null
+  },
 });
+
+// Helper: soft delete
+userSchema.methods.softDelete = function () {
+  this.deletedAt = new Date();
+  return this.save();
+};
+
+// Helper: restore
+userSchema.methods.restore = function () {
+  this.deletedAt = null;
+  return this.save();
+};
+
+// Query helper: only get non-deleted users
+userSchema.query.notDeleted = function () {
+  return this.where({ deletedAt: null });
+};
 
 const User = mongoose.model("User", userSchema);
 
