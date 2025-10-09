@@ -4,6 +4,7 @@ import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import categoryRoutes from "./routes/categoryRouter.js";
 import productRoutes from "./routes/productRouter.js";
+import logger from "./middlewares/logger.js";
 
 dotenv.config();
 
@@ -13,6 +14,9 @@ const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB
 connectDB();
+
+// logger
+app.use(logger);
 
 // Test route
 app.get("/", (req, res) => {
