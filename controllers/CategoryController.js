@@ -8,7 +8,7 @@ export const createCategory = async (req, res) => {
         res.status(201).json({ message: "Category created successfully", category });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Server error", error });
+        res.status(500).json({ error: "Server error" });
     }
 };
 
@@ -49,7 +49,7 @@ export const deleteCategory = async (req, res) => {
 
 export const getCategories = async (req, res) => {
     try {
-        const categories = await Category.find();
+        const categories = await Category.find().notDeleted();
         res.status(200).json({ categories });
     } catch (error) {
         console.error(error);
@@ -71,3 +71,46 @@ export const getCategoryById = async (req, res) => {
         res.status(500).json({ error: "Server error" });
     }
 }
+
+// Soft delete
+export const softDeleteCategory = async (req, res) => {
+    try {
+        const category = await Category.findById(req.params.id);
+        if (!category) return res.status(404).json({ error: "Category not found" });
+
+        category.deletedAt = new Date();
+        await category.save();
+
+        res.status(200).json({ message: "Category soft deleted" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Server error" });
+    }
+};
+
+// Restore
+export const restoreCategory = async (req, res) => {
+    try {
+        const category = await Category.findById(req.params.id);
+        if (!category) return res.status(404).json({ error: "Category not found" });
+
+        category.deletedAt = null;
+        await category.save();
+
+        res.status(200).json({ message: "Category restored" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Server error" });
+    }
+};
+
+// Get all soft-deleted categories
+export const getDeletedCategories = async (req, res) => {
+    try {
+        const categories = await Category.find().deleted();
+        res.status(200).json({ categories });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Server error" });
+    }
+};

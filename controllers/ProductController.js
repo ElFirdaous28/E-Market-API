@@ -49,7 +49,7 @@ export const deleteProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
     try {
-        const Products = await Product.find().notDeleted(); // <-- query helper
+        const Products = await Product.find().notDeleted().populate("categories"); // <-- query helper
         res.status(200).json({ Products });
     } catch (error) {
         console.error(error);
@@ -103,7 +103,7 @@ export const restoreProduct = async (req, res) => {
 // Get all soft-deleted products
 export const getDeletedProducts = async (req, res) => {
     try {
-        const products = await Product.find({ deletedAt: { $ne: null } });
+        const products = await Product.find().deleted();
         res.status(200).json({ products });
     } catch (error) {
         console.error(error);

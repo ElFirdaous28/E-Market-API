@@ -58,6 +58,10 @@ productSchema.query.notDeleted = function () {
   return this.where({ deletedAt: null });
 };
 
+productSchema.query.deleted = function () {
+  return this.where({ deletedAt: { $ne: null } });
+};
+
 const Product = mongoose.model("Product", productSchema);
 
 export default Product;

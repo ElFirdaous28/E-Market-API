@@ -108,7 +108,7 @@ export const restoreUser = async (req, res) => {
 // Get all soft-deleted users
 export const getDeletedUsers = async (req, res) => {
   try {
-    const users = await User.find({ deletedAt: { $ne: null } });
+    const users = await User.find().deleted();
     res.status(200).json({ users });
   } catch (error) {
     console.error(error);
