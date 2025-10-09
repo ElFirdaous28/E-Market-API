@@ -54,7 +54,7 @@ export const deleteUser = async (req, res) => {
 
 export const getUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find().notDeleted();
     res.status(200).json({ users });
   } catch (error) {
     console.error(error);
@@ -76,3 +76,42 @@ export const getUserById = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 }
+
+// Soft delete user
+export const softDeleteUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    await user.softDelete();
+    res.status(200).json({ message: "User soft deleted" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// Restore user
+export const restoreUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    await user.restore();
+    res.status(200).json({ message: "User restored" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// Get all soft-deleted users
+export const getDeletedUsers = async (req, res) => {
+  try {
+    const users = await User.find({ deletedAt: { $ne: null } });
+    res.status(200).json({ users });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
