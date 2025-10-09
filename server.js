@@ -5,6 +5,8 @@ import userRoutes from "./routes/userRoutes.js";
 import categoryRoutes from "./routes/categoryRouter.js";
 import productRoutes from "./routes/productRouter.js";
 import logger from "./middlewares/logger.js";
+import notFound from "./middlewares/notFound.js";
+
 
 dotenv.config();
 
@@ -32,3 +34,6 @@ app.listen(PORT, () => {
 app.use("/api/users", userRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
+
+// Catch all unknown routes
+app.use(notFound);
