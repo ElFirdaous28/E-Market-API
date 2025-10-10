@@ -3,3 +3,26 @@
 [2025-10-09T14:14:10.634Z] POST /api/categories
 [2025-10-09T14:25:42.648Z] POST /api/categories 500 16ms ::1
 [2025-10-09T14:30:15.033Z] POST /api/categories/xxxxxxxxx 404 4ms ::1
+[2025-10-09T14:57:19.280Z] POST /api/categories/ 500 20ms ::1
+[2025-10-09T14:57:21.402Z] POST /api/categories/ 500 13ms ::1
+[2025-10-09T16:30:46.937Z] GET /api/products 200 77ms ::1
+[2025-10-09T16:31:50.937Z] GET /api/categories 200 9ms ::1
+[2025-10-09T16:32:01.409Z] PATCH /api/products/68e780ba103177cc928095dc 200 27ms ::1
+[2025-10-09T16:32:24.009Z] GET /api/products 200 27ms ::1
+[2025-10-10T13:53:30.026Z] POST /api/categories 500 74ms ::1
+[2025-10-10T14:02:10.884Z] POST /api/categories 500 55ms ::1
+[2025-10-10T14:09:37.936Z] POST /api/categories 500 32ms ::1
+[2025-10-10T14:09:39.269Z] POST /api/categories 500 5ms ::1
+[2025-10-10T14:09:39.809Z] POST /api/categories 500 5ms ::1
+[2025-10-10T14:26:37.589Z] POST /api/categories 500 23ms ::1
+[2025-10-10T14:27:59.130Z] POST /api/categories 500 23ms ::1
+[2025-10-10T14:31:48.463Z] PATCH /api/categories/68e68e75139258d7d83b35ee 404 27ms ::1
+[2025-10-10T14:31:53.569Z] PATCH /api/categories/68e68e75139258d7d83b35eemmcm 500 8ms ::1
+[2025-10-10T14:32:18.894Z] PATCH /api/categories/68e68e75139258d7d83b35es 500 5ms ::1
+[2025-10-10T14:32:35.266Z] PATCH /api/categories/68e68e75139258d7d83b35ee 404 3ms ::1
+[2025-10-10T14:38:48.076Z] PATCH /api/categories/68e68e75139258d7d83b35ee 404 22ms ::1
+[2025-10-10T14:38:52.095Z] PATCH /api/categories/68e68e75139258d7d83b35ex 500 5ms ::1
+[2025-10-10T14:39:08.441Z] PATCH /api/categories/68e68e75139258d7d83b35ex 500 16ms ::1
+[2025-10-10T14:39:57.505Z] PATCH /api/categories/68e68e75139258d7d83b35ex 500 16ms ::1
+[2025-10-10T15:03:06.053Z] PATCH /api/categories/68e68e75139258d7d83b35ex 500 28ms ::1
+[2025-10-10T15:03:16.168Z] PATCH /api/categories/68e68e75139258d7d83b35ex 500 26ms ::1
