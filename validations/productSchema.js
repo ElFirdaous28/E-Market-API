@@ -29,7 +29,15 @@ export const productSchema = yup.object({
 
     images: yup
         .array()
-        .of(yup.string().url("Each image must be a valid URL"))
+        .required()
+        .of(
+            yup
+                .string()
+                .matches(
+                    /^[\w,\s-]+(\.[A-Za-z]{3,4})$|^([\w,\s-]+\/)+[\w,\s-]+\.[A-Za-z]{3,4}$/,
+                    "Each image must be a valid filename or file path"
+                )
+        )
         .min(1, "At least one image is required"),
 
     createdAt: yup.date().default(() => new Date()),
