@@ -102,3 +102,40 @@ export const getDeletedProducts = async (req, res, next) => {
         next(error);
     }
 };
+
+// search function
+export const searchProducts = async (req, res) => {
+  try {
+    const { title, categories, minPrice, maxPrice } = req.query;
+    const filter = {};
+
+    // Filter by title (case-insensitive)
+    if (title) {
+      filter.title = { $regex: title, $options: "i" };
+    }
+
+    // Filter by one or more categories
+    if (categories) {
+      const categoryArray = categories.split(",");
+      filter.categories = { $in: categoryArray };
+    }
+
+    // Filter by price range
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = Number(minPrice);
+      if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
+    const products = await Product.find(filter);
+
+    res.json({
+      success: true,
+      count: products.length,
+      products,
+    });
+  } catch (error) {
+    console.error("Error searching products:", error);
+    res.status(500).json({ error: "Server error while searching products" });
+  }
+};
