@@ -1,9 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+
 import userRoutes from "./routes/userRoutes.js";
-import categoryRoutes from "./routes/categoryRouter.js";
-import productRoutes from "./routes/productRouter.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import authRoutes from "./routes/authRoutes.js"
+
 import logger from "./middlewares/logger.js";
 import notFound from "./middlewares/notFound.js";
 import errorHandler from "./middlewares/errorHandler.js";
@@ -42,6 +45,7 @@ app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use("/api/users", userRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/auth", authRoutes);
 
 // Catch all unknown routes
 app.use(notFound);
