@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 import softDeletePlugin from "./plugins/softDeletePlugin.js"
 
 const userSchema = new mongoose.Schema({
@@ -30,6 +31,12 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: null
   },
+});
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
 });
 
 userSchema.plugin(softDeletePlugin);
