@@ -7,7 +7,7 @@ const JWT_EXPIRES_IN = "7d"; // Token validity\
 
 
 // Register
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
     try {
         const { fullname, email, password } = req.body;
 
@@ -18,14 +18,25 @@ export const register = async (req, res) => {
         const user = new User({ fullname, email, password });
         await user.save();
 
-        res.status(201).json({ message: "User registered successfully" });
+        // generate token
+        const token = jwt.sign(
+            { id: user._id, role: user.role },
+            JWT_SECRET,
+            { expiresIn: JWT_EXPIRES_IN }
+        );
+
+        res.status(201).json({
+            message: "User registered successfully",
+            token,
+            user: { id: user._id, fullname: user.fullname, email: user.email, role: user.role },
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
 // Login
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
@@ -35,6 +46,7 @@ export const login = async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) return res.status(400).json({ message: "Invalid credentials" });
 
+        // generate token
         const token = jwt.sign(
             { id: user._id, role: user.role },
             JWT_SECRET,
@@ -47,6 +59,6 @@ export const login = async (req, res) => {
             user: { id: user._id, fullname: user.fullname, email: user.email, role: user.role },
         });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
